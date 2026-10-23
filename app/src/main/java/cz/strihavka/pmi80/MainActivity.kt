@@ -32,6 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import cz.strihavka.pmi80.core.PowerSupply
 import cz.strihavka.pmi80.core.Pmi80
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,7 +64,7 @@ class MainActivity : ComponentActivity() {
             MaterialTheme(colorScheme=darkColorScheme(primary=Color(0xffe9b449),secondary=Color(0xff8bbdd9),background=Color(0xff151719))) {
                 val state by vm.state.collectAsStateWithLifecycle()
                 EmulatorScreen(state,vm::key,vm::reset,vm::toggle,vm::step,
-                    { importingRom=it; openFile.launch(arrayOf("*/*")) }, { saveFile.launch("pmi80-ram.bin") })
+                    { importingRom=it; openFile.launch(arrayOf("*/*")) }, { saveFile.launch("pmi80-ram.bin") },vm::openCase,vm::power,vm::closeCase)
             }
         }
     }
@@ -72,8 +73,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun EmulatorScreen(state: ScreenState, key: (String,Boolean)->Unit, reset: ()->Unit, toggle: ()->Unit, step: ()->Unit, load: (Boolean)->Unit, save: ()->Unit) {
+private fun EmulatorScreen(state: ScreenState, key: (String,Boolean)->Unit, reset: ()->Unit, toggle: ()->Unit, step: ()->Unit, load: (Boolean)->Unit, save: ()->Unit, openCase: ()->Unit, power: ()->Unit, closeCase: ()->Unit) {
     var help by remember { mutableStateOf(false) }
+    var original by remember { mutableStateOf(false) }
+    if(state.power==PowerSupply.Phase.CLOSED) { CaseWelcome(openCase); return }
+    val powered=state.power==PowerSupply.Phase.ON
     Surface(modifier=Modifier.fillMaxSize()) {
         Column(Modifier.safeDrawingPadding().verticalScroll(rememberScrollState()).padding(12.dp).widthIn(max=720.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically) {
@@ -83,11 +87,14 @@ private fun EmulatorScreen(state: ScreenState, key: (String,Boolean)->Unit, rese
                 }
                 TextButton(onClick={help=true}) { Text("Návod") }
             }
+            SourcePanel(state,power)
+            TextButton(onClick={original=true}) { Text("Vnitřní strana víka – originální tabulka") }
             PmiPanel(state.digits,key)
+            if(state.power==PowerSupply.Phase.OFF) TextButton(onClick=closeCase) { Text("Zavřít krabičku") }
             Row(horizontalArrangement=Arrangement.spacedBy(8.dp)) {
-                Button(onClick=toggle,modifier=Modifier.weight(1f)) { Text(if(state.running) "Pozastavit" else "Pokračovat") }
-                OutlinedButton(onClick=step) { Text("Krok") }
-                OutlinedButton(onClick=reset) { Text("Reset") }
+                Button(onClick=toggle,enabled=powered,modifier=Modifier.weight(1f)) { Text(if(state.running) "Pozastavit" else "Pokračovat") }
+                OutlinedButton(onClick=step,enabled=powered) { Text("Krok") }
+                OutlinedButton(onClick=reset,enabled=powered) { Text("Reset") }
             }
             Text(state.message,fontSize=13.sp,color=MaterialTheme.colorScheme.secondary)
             Surface(color=Color(0xff202427),shape=RoundedCornerShape(12.dp),modifier=Modifier.fillMaxWidth()) {
@@ -104,8 +111,9 @@ private fun EmulatorScreen(state: ScreenState, key: (String,Boolean)->Unit, rese
             Text("ROM 0000–07FF  /  RAM 1C00–1FFF\n8255: F8–FB a F4–F7",fontFamily=FontFamily.Monospace,fontSize=11.sp,color=Color.Gray)
         }
     }
-    if(help) AlertDialog(onDismissRequest={help=false},confirmButton={TextButton(onClick={help=false}){Text("Rozumím")}},title={Text("Ovládání PMI-80")},text={
+    if(help) AlertDialog(onDismissRequest={help=false},confirmButton={TextButton(onClick={help=false}){Text("Rozumím")}},dismissButton={TextButton(onClick={help=false; original=true}) { Text("Originální tabulka") }},title={Text("Ovládání PMI-80")},text={
         Column(Modifier.verticalScroll(rememberScrollState()),verticalArrangement=Arrangement.spacedBy(10.dp)) {
+            Text("Otevři krabičku a zapni přepínač SÍŤ na zdroji SN 080. Po rozsvícení napětí se spustí skutečný monitor. Zdroj můžeš opět vypnout a krabičku zavřít. Tabulku z víka zvětšíš dvěma prsty.")
             Text("Po zapnutí svítí PMI -80. Stiskni libovolnou klávesu pro vstup do monitoru.")
             Text("M: zadej adresu (např. 1C00), =, dva hexadecimální znaky dat a = pro další adresu. Samotné = prochází paměť.")
             Text("EX: zadej adresu programu a = pro spuštění. R pro registry (8=SP, 9=HL, A=AF, B=BC, D=DE). BR nastavuje breakpoint. RE resetuje CPU a zachovává RAM. I vyvolává RST 7, pokud jsou povolena přerušení.")
@@ -114,6 +122,7 @@ private fun EmulatorScreen(state: ScreenState, key: (String,Boolean)->Unit, rese
             Text("Panel a klávesnice vycházejí z fotografií původního PMI-80: zelená deska, červený kryt displeje a krémový štítek s modrými funkčními klávesami. Původní monitor: projekt maly/fpmi, licence MIT.")
         }
     })
+    if(original) OriginalLidDialog { original=false }
 }
 
 private val Plate = Color(0xffded8c7)
