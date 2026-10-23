@@ -1,7 +1,7 @@
 # PMI-80-EMI
 Emulator of PMI-80 for Android.
 
-Nativní Android aplikace v Kotlinu a Jetpack Compose. Vzhled a rozložení kláves jsou inspirované [ASM80 PMI-80](https://www.asm80.com/pmi80.html). Emulace běží lokálně bez internetu a bez WebView.
+Nativní Android aplikace v Kotlinu a Jetpack Compose. Panel verze 1.1 vychází z fotografií původního PMI-80: olivová deska v krémovém a žlutém krytu, červený průsvitný kryt s devíti čočkami a samostatný světlý štítek klávesnice. Modré funkční klávesy a tmavé hexadecimální klávesy mají stejné rozměry; popisky registrů jsou nad tlačítky. Rozložení odpovídá také [ASM80 PMI-80](https://www.asm80.com/pmi80.html). Emulace běží lokálně bez internetu a bez WebView.
 
 ## Instalace APK
 
