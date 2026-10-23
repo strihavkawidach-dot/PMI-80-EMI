@@ -53,3 +53,7 @@ Aplikace začíná zavřenou žlutou krabičkou. **Otevřít krabičku** animuje
 ## Verze 1.2.1 – originální víko a název EMU
 
 Úvodní víko nyní používá dodanou fotografii skutečné krabičky: původní znak Tesla, text ŠKOLSKÝ MIKROPOČÍTAČ / PMI 80 a TESLA PIEŠŤANY. Aplikace zobrazuje výřez originálu a zachovává autentický povrch i patinu; původní JPEG není upravený. Otevírání víka funguje stejně jako dříve. Název aplikace v Androidu, úvodní obrazovka, název projektu Gradle i APK artefaktu nyní používají EMU. Adresa existujícího GitHub repozitáře zůstává stejná.
+
+## Verze 1.3 – fotografická deska a displej
+
+Kreslené součástky a klávesy nahrazuje skutečný nerozsvícený záběr desky z dodaného videa `VID_20261023_131232.mp4`. Původní snímek je uložen bez retuše; při zobrazení se otočí a ořízne na sekci displeje a klávesnice. Stejný fotografický podklad se odhaluje pod otevíraným víkem. Nad původními klávesami jsou průhledné dotykové plochy s odezvou stisku a podporou přístupnosti. Nad původním krytem displeje se vykreslují pouze aktivní segmenty. Zhasnuté segmenty, umělé čočky a desetinné tečky se nevykreslují; CPU a původní monitor nejsou upraveny. Displej lze klepnutím nebo tlačítkem zvětšit. Finální úprava fotografie víka se ještě doladí podle slíbeného nového vzoru.

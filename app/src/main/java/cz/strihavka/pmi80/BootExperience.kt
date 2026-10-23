@@ -63,16 +63,7 @@ internal fun CaseWelcome(open: ()->Unit) {
             Text("Školský mikropočítač",fontSize=14.sp,color=Color(0xffa9af9e))
             Spacer(Modifier.height(44.dp))
             Box(Modifier.fillMaxWidth().widthIn(max=520.dp).aspectRatio(1.42f)) {
-                // The lower shell and a simplified unpowered board are revealed beneath the lid.
-                Canvas(Modifier.fillMaxSize()) {
-                    drawRoundRect(Color(0xffac8d0c),cornerRadius=androidx.compose.ui.geometry.CornerRadius(14.dp.toPx()))
-                    drawRoundRect(Color(0xffe8ddbc),Offset(8.dp.toPx(),8.dp.toPx()),Size(size.width-16.dp.toPx(),size.height-16.dp.toPx()),androidx.compose.ui.geometry.CornerRadius(10.dp.toPx()))
-                    drawRect(Color(0xff718063),Offset(size.width*0.12f,size.height*0.17f),Size(size.width*0.76f,size.height*0.65f))
-                    drawRect(Color(0xff451b13),Offset(size.width*0.58f,size.height*0.23f),Size(size.width*0.24f,size.height*0.10f))
-                    drawRect(Color(0xffd8d0b9),Offset(size.width*0.56f,size.height*0.4f),Size(size.width*0.29f,size.height*0.34f))
-                    for(row in 0..4) for(column in 0..4) drawRect(if(row==0 || column==4) Color(0xff426d88) else Color(0xff333a34),Offset(size.width*(0.575f+column*0.053f),size.height*(0.42f+row*0.06f)),Size(size.width*0.04f,size.height*0.04f))
-                    for(row in 0..2) drawRect(Color(0xff25332a),Offset(size.width*0.18f,size.height*(0.25f+row*0.17f)),Size(size.width*0.27f,size.height*0.08f))
-                }
+                Image(rememberBoardPhoto(),contentDescription="Skutečná deska a klávesnice PMI-80 pod víkem",contentScale=ContentScale.Crop,modifier=Modifier.fillMaxSize())
                 Canvas(Modifier.fillMaxSize().graphicsLayer {
                     rotationX=angle; cameraDistance=14*density; transformOrigin=TransformOrigin(0.5f,0f)
                 }.clipToBounds().semantics {
