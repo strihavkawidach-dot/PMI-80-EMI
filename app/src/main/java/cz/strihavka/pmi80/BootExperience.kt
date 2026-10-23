@@ -89,59 +89,6 @@ internal fun CaseWelcome(open: ()->Unit) {
 }
 
 @Composable
-internal fun SourcePanel(state: ScreenState, togglePower: ()->Unit) {
-    val busy=state.power==PowerSupply.Phase.STARTING || state.power==PowerSupply.Phase.STOPPING
-    Column(Modifier.fillMaxWidth().background(Color(0xff1e211f),RoundedCornerShape(4.dp)).border(3.dp,Color(0xff747970),RoundedCornerShape(4.dp)).padding(9.dp)) {
-        Column(Modifier.fillMaxWidth().border(1.dp,Color(0xffc0c4b4)).padding(12.dp)) {
-            Text("SÍŤOVÝ NAPÁJEČ  SN 080",modifier=Modifier.align(Alignment.End),fontSize=11.sp,fontStyle=FontStyle.Italic,color=Color(0xffe3e2d1),fontWeight=FontWeight.Bold)
-            Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.SpaceBetween) {
-                Column(horizontalAlignment=Alignment.CenterHorizontally) {
-                    Led(state.mains,Color(0xff6ce24a),"Síť")
-                    Spacer(Modifier.height(4.dp))
-                    Canvas(Modifier.size(52.dp).semantics { contentDescription=if(state.mains) "Vypnout zdroj" else "Zapnout zdroj" }.clickable(enabled=!busy,onClick=togglePower)) {
-                        val center=Offset(size.width/2,size.height/2)
-                        drawCircle(Color(0xffb2b4a9),size.width*0.27f,center)
-                        drawCircle(Color(0xff242926),size.width*0.21f,center)
-                        val end=center+Offset(if(state.mains) -size.width*0.08f else size.width*0.08f,if(state.mains) -size.height*0.24f else size.height*0.24f)
-                        drawLine(Color(0xff999f98),center,end,7.dp.toPx(),StrokeCap.Round)
-                        drawLine(Color(0xffe4e6df),center+Offset(-1.dp.toPx(),0f),end+Offset(-1.dp.toPx(),0f),2.dp.toPx(),StrokeCap.Round)
-                    }
-                    Text("SÍŤ",color=Color(0xffdddccc),fontSize=9.sp)
-                }
-                Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
-                    listOf("+5 V","−5 V","+12 V").forEachIndexed { index,label ->
-                        Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)) {
-                            Led(state.rails and (1 shl index)!=0,Color(0xffff3c60),label)
-                            Text(label,fontSize=11.sp,fontFamily=FontFamily.Monospace,color=Color(0xffe1dfcf))
-                        }
-                    }
-                }
-                Box(Modifier.size(38.dp).border(1.dp,Color(0xffaaa88e),androidx.compose.foundation.shape.CircleShape),contentAlignment=Alignment.Center) {
-                    Text("T",color=Color(0xffc4bea3),fontSize=23.sp,fontFamily=FontFamily.Serif)
-                }
-            }
-        }
-        TextButton(onClick=togglePower,enabled=!busy,modifier=Modifier.align(Alignment.CenterHorizontally)) {
-            Text(when(state.power) { PowerSupply.Phase.STARTING->"Zapínám…"; PowerSupply.Phase.STOPPING->"Napětí dobíhají…"; PowerSupply.Phase.ON->"Vypnout zdroj"; else->"Zapnout zdroj" })
-        }
-    }
-}
-
-@Composable
-private fun Led(on: Boolean, color: Color, label: String) {
-    val glow by animateFloatAsState(if(on) 1f else 0f,tween(220),label="Kontrolka $label")
-    Canvas(Modifier.size(14.dp).semantics { contentDescription="$label: ${if(on) "svítí" else "zhasnuto"}" }) {
-        val center=Offset(size.width/2,size.height/2)
-        drawCircle(Color(0xff0b100c),size.width*0.32f,center)
-        if(glow>0f) {
-            drawCircle(Brush.radialGradient(listOf(color.copy(alpha=0.55f*glow),Color.Transparent),center,size.width/2),size.width/2,center)
-            drawCircle(color.copy(alpha=glow),size.width*0.21f,center)
-            drawCircle(Color.White.copy(alpha=0.7f*glow),size.width*0.08f,center)
-        }
-    }
-}
-
-@Composable
 internal fun OriginalLidDialog(close: ()->Unit) {
     val context=LocalContext.current
     val photograph=remember(context) {

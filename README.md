@@ -71,3 +71,9 @@ Detail displeje používá fotografický podklad vytvořený z dodané detailní
 ## Verze 1.4.1 – kalibrace podle čelní fotografie
 
 Základem displeje je nyní čtvrtá z doplněných čelních fotografií (`1000044652.jpg`), retušovaná do zhasnutého stavu. Výřez obsahuje celý kryt včetně prázdných okrajů. Devět pozic se určuje samostatnými měřenými souřadnicemi středů čoček, nikoli rovnoměrnou mřížkou. Upravené měřítko zachovává polohu displeje vůči desce i mírnou perspektivu. Záře odpovídá velikosti jednotlivých čoček. Krajní dvojice krátkých svislých segmentů při uvítání zůstávají zachované: jsou součástí původního monitoru a jsou vidět na referenčních fotografiích. Desetinné tečky se nepřidávají. Změny jsou pouze ve vykreslování, paměť ani CPU se nemění.
+
+## Verze 1.5 – fotografický panel SN 080
+
+Napáječ používá fotografii skutečného panelu SN 080 místo kresleného panelu. Zapnutý ustálený stav je původní dodaná fotografie s rozsvícenými kontrolkami, skutečnou páčkou, nápisy a znakem. Vypnutý podklad je retušovaná varianta fotografie vytvořená obrazovým nástrojem: kontrolky jsou zhasnuté a páčka je v poloze O. Při přechodech se jednotlivé fotografované kontrolky a poloha přepínače prolínají podle stávající sekvence zdroje. Originální fotografie uživatele se nemění.
+
+Přepínač má přímo v panelu dotykovou plochu 48 dp s rolí přepínače pro přístupnost; pod panelem zůstává velké textové tlačítko. Celý panel se zobrazuje v poměru stran podle fotografie. Ořez při zobrazení vynechává okolní pracovní stůl, ne nápisy na čelním panelu. Pořadí napětí a pravidla spouštění CPU zůstávají stejné.
