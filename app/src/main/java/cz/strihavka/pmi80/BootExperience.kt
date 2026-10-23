@@ -51,10 +51,9 @@ import kotlinx.coroutines.delay
 internal fun CaseWelcome(open: ()->Unit) {
     val context=LocalContext.current
     val casePhoto=remember(context) { BitmapFactory.decodeResource(context.resources,R.drawable.pmi80_case).asImageBitmap() }
-    // Tight, aspect-preserving viewport within the new front-facing lid photograph.
-    // It excludes the table and power supply while keeping every factory inscription.
-    val lidOffset=IntOffset((casePhoto.width*0.025f).toInt(),(casePhoto.height*0.065f).toInt())
-    val lidSize=IntSize((casePhoto.width*0.96f).toInt(),(casePhoto.height*0.905f).toInt())
+    // Fit the entire supplied lid photograph, preserving every edge and inscription.
+    val lidOffset=IntOffset.Zero
+    val lidSize=IntSize(casePhoto.width,casePhoto.height)
     var opening by rememberSaveable { mutableStateOf(false) }
     var original by remember { mutableStateOf(false) }
     val angle by animateFloatAsState(if(opening) -108f else 0f,tween(900),label="Otevírání víka")

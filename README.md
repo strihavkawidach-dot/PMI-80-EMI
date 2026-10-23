@@ -61,3 +61,9 @@ Kreslené součástky a klávesy nahrazuje skutečný nerozsvícený záběr des
 ## Verze 1.3.1 – finální fotografie víka
 
 Úvod používá novou čelní fotografii víka s kompletním původním označením TESLA PIEŠŤANY k. p. Ořez při zobrazení odstraní okolní stůl a zdroj a zachová znak Tesla i oba hlavní nápisy. Poměr stran se vypočítává ze zdrojového výřezu, takže fotografie není roztažená. Původní JPEG se nemění a nápisy nejsou dodatečně překreslené. Fotografická deska, dotyková klávesnice, sedmisegmentový displej a sekvence zdroje zůstávají stejné jako ve verzi 1.3.0.
+
+## Verze 1.4 – detail displeje podle dodané fotografie
+
+Detail displeje používá fotografický podklad vytvořený z dodané detailní fotografie. Podklad byl retušován pomocí generativního obrazového nástroje: byly odstraněny rozsvícené znaky a jejich světlo, aby fotografie nezobrazovala pevný nápis při vypnutí nebo při běhu jiného programu. Jde tedy o retušovaný fotografický podklad, ne nezměněný originál. Nad jednotlivými čočkami se kreslí pouze aktivní segmenty ze skutečného monitoru a uživatelského programu, v měřítku podle fotografie. Bez desetinných teček nebo viditelných neaktivních segmentů. Stejná geometrie se používá na desce i ve zvětšeném detailu, s jemnou růžovočervenou září. Originální soubory uživatele se nemění.
+
+Úvodní víko se nyní zobrazuje z celé nové fotografie, bez vnitřního ořezu a bez deformace; jeho rozměry na obrazovce vycházejí přímo z poměru stran fotografie.
