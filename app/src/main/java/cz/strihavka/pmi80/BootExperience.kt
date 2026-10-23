@@ -51,6 +51,10 @@ import kotlinx.coroutines.delay
 internal fun CaseWelcome(open: ()->Unit) {
     val context=LocalContext.current
     val casePhoto=remember(context) { BitmapFactory.decodeResource(context.resources,R.drawable.pmi80_case).asImageBitmap() }
+    // Tight, aspect-preserving viewport within the new front-facing lid photograph.
+    // It excludes the table and power supply while keeping every factory inscription.
+    val lidOffset=IntOffset((casePhoto.width*0.025f).toInt(),(casePhoto.height*0.065f).toInt())
+    val lidSize=IntSize((casePhoto.width*0.96f).toInt(),(casePhoto.height*0.905f).toInt())
     var opening by rememberSaveable { mutableStateOf(false) }
     var original by remember { mutableStateOf(false) }
     val angle by animateFloatAsState(if(opening) -108f else 0f,tween(900),label="Otevírání víka")
@@ -62,18 +66,18 @@ internal fun CaseWelcome(open: ()->Unit) {
             Text("PMI-80 EMU",fontSize=32.sp,fontWeight=FontWeight.Bold,color=Color(0xffe7dfc4))
             Text("Školský mikropočítač",fontSize=14.sp,color=Color(0xffa9af9e))
             Spacer(Modifier.height(44.dp))
-            Box(Modifier.fillMaxWidth().widthIn(max=520.dp).aspectRatio(1.42f)) {
+            Box(Modifier.fillMaxWidth().widthIn(max=520.dp).aspectRatio(lidSize.width.toFloat()/lidSize.height)) {
                 Image(rememberBoardPhoto(),contentDescription="Skutečná deska a klávesnice PMI-80 pod víkem",contentScale=ContentScale.Crop,modifier=Modifier.fillMaxSize())
                 Canvas(Modifier.fillMaxSize().graphicsLayer {
                     rotationX=angle; cameraDistance=14*density; transformOrigin=TransformOrigin(0.5f,0f)
                 }.clipToBounds().semantics {
-                    contentDescription="Původní žluté víko se znakem Tesla, nápisem Školský mikropočítač PMI 80 a označením Tesla Piešťany"
+                    contentDescription="Původní žluté víko se znakem Tesla, nápisem Školský mikropočítač PMI 80 a úplným označením Tesla Piešťany k. p."
                 }.clickable(enabled=!opening){opening=true}) {
                     // Display the lid region of the user's original photograph. The JPEG stays
                     // unmodified, retaining the real badge, lettering, patina and plastic texture.
                     drawImage(casePhoto,
-                        srcOffset=IntOffset(0,(casePhoto.height*0.45f).toInt()),
-                        srcSize=IntSize(casePhoto.width,(casePhoto.height*0.53f).toInt()),
+                        srcOffset=lidOffset,
+                        srcSize=lidSize,
                         dstSize=IntSize(size.width.toInt().coerceAtLeast(1),size.height.toInt().coerceAtLeast(1)))
                 }
             }

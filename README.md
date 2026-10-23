@@ -56,4 +56,8 @@ Aplikace začíná zavřenou žlutou krabičkou. **Otevřít krabičku** animuje
 
 ## Verze 1.3 – fotografická deska a displej
 
-Kreslené součástky a klávesy nahrazuje skutečný nerozsvícený záběr desky z dodaného videa `VID_20261023_131232.mp4`. Původní snímek je uložen bez retuše; při zobrazení se otočí a ořízne na sekci displeje a klávesnice. Stejný fotografický podklad se odhaluje pod otevíraným víkem. Nad původními klávesami jsou průhledné dotykové plochy s odezvou stisku a podporou přístupnosti. Nad původním krytem displeje se vykreslují pouze aktivní segmenty. Zhasnuté segmenty, umělé čočky a desetinné tečky se nevykreslují; CPU a původní monitor nejsou upraveny. Displej lze klepnutím nebo tlačítkem zvětšit. Finální úprava fotografie víka se ještě doladí podle slíbeného nového vzoru.
+Kreslené součástky a klávesy nahrazuje skutečný nerozsvícený záběr desky z dodaného videa `VID_20261023_131232.mp4`. Původní snímek je uložen bez retuše; při zobrazení se otočí a ořízne na sekci displeje a klávesnice. Stejný fotografický podklad se odhaluje pod otevíraným víkem. Nad původními klávesami jsou průhledné dotykové plochy s odezvou stisku a podporou přístupnosti. Nad původním krytem displeje se vykreslují pouze aktivní segmenty. Zhasnuté segmenty, umělé čočky a desetinné tečky se nevykreslují; CPU a původní monitor nejsou upraveny. Displej lze klepnutím nebo tlačítkem zvětšit. Víko bylo následně dokončeno podle nové fotografie ve verzi 1.3.1.
+
+## Verze 1.3.1 – finální fotografie víka
+
+Úvod používá novou čelní fotografii víka s kompletním původním označením TESLA PIEŠŤANY k. p. Ořez při zobrazení odstraní okolní stůl a zdroj a zachová znak Tesla i oba hlavní nápisy. Poměr stran se vypočítává ze zdrojového výřezu, takže fotografie není roztažená. Původní JPEG se nemění a nápisy nejsou dodatečně překreslené. Fotografická deska, dotyková klávesnice, sedmisegmentový displej a sekvence zdroje zůstávají stejné jako ve verzi 1.3.0.
