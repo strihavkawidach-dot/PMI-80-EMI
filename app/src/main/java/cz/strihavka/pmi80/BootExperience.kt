@@ -38,6 +38,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -47,6 +49,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 internal fun CaseWelcome(open: ()->Unit) {
+    val context=LocalContext.current
+    val casePhoto=remember(context) { BitmapFactory.decodeResource(context.resources,R.drawable.pmi80_case).asImageBitmap() }
     var opening by rememberSaveable { mutableStateOf(false) }
     var original by remember { mutableStateOf(false) }
     val angle by animateFloatAsState(if(opening) -108f else 0f,tween(900),label="Otevírání víka")
@@ -55,10 +59,10 @@ internal fun CaseWelcome(open: ()->Unit) {
         Column(Modifier.fillMaxSize().safeDrawingPadding().verticalScroll(rememberScrollState()).padding(24.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.Center) {
             Text("TESLA  •  PIEŠŤANY",fontSize=12.sp,letterSpacing=3.sp,color=Color(0xffc2c3ae))
             Spacer(Modifier.height(16.dp))
-            Text("PMI-80",fontSize=36.sp,fontWeight=FontWeight.Bold,color=Color(0xffe7dfc4))
-            Text("Mikropočítač v krabičce",fontSize=14.sp,color=Color(0xffa9af9e))
+            Text("PMI-80 EMU",fontSize=32.sp,fontWeight=FontWeight.Bold,color=Color(0xffe7dfc4))
+            Text("Školský mikropočítač",fontSize=14.sp,color=Color(0xffa9af9e))
             Spacer(Modifier.height(44.dp))
-            Box(Modifier.fillMaxWidth().widthIn(max=520.dp).aspectRatio(1.35f)) {
+            Box(Modifier.fillMaxWidth().widthIn(max=520.dp).aspectRatio(1.42f)) {
                 // The lower shell and a simplified unpowered board are revealed beneath the lid.
                 Canvas(Modifier.fillMaxSize()) {
                     drawRoundRect(Color(0xffac8d0c),cornerRadius=androidx.compose.ui.geometry.CornerRadius(14.dp.toPx()))
@@ -69,14 +73,17 @@ internal fun CaseWelcome(open: ()->Unit) {
                     for(row in 0..4) for(column in 0..4) drawRect(if(row==0 || column==4) Color(0xff426d88) else Color(0xff333a34),Offset(size.width*(0.575f+column*0.053f),size.height*(0.42f+row*0.06f)),Size(size.width*0.04f,size.height*0.04f))
                     for(row in 0..2) drawRect(Color(0xff25332a),Offset(size.width*0.18f,size.height*(0.25f+row*0.17f)),Size(size.width*0.27f,size.height*0.08f))
                 }
-                Column(Modifier.fillMaxSize().graphicsLayer {
+                Canvas(Modifier.fillMaxSize().graphicsLayer {
                     rotationX=angle; cameraDistance=14*density; transformOrigin=TransformOrigin(0.5f,0f)
-                }.background(Brush.verticalGradient(listOf(Color(0xffddc52c),Color(0xffb89c0f))),RoundedCornerShape(12.dp))
-                    .border(3.dp,Color(0xffedda53),RoundedCornerShape(12.dp)).clickable(enabled=!opening){opening=true}.padding(24.dp),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.Center) {
-                    Text("TESLA",color=Color(0xff514c21),fontSize=12.sp,letterSpacing=4.sp)
-                    Text("PMI-80",color=Color(0xff393a25),fontSize=34.sp,fontWeight=FontWeight.Bold,letterSpacing=4.sp)
-                    Spacer(Modifier.height(12.dp))
-                    Text("MIKROPOČÍTAČ",color=Color(0xff514c21),fontSize=10.sp,letterSpacing=3.sp)
+                }.clipToBounds().semantics {
+                    contentDescription="Původní žluté víko se znakem Tesla, nápisem Školský mikropočítač PMI 80 a označením Tesla Piešťany"
+                }.clickable(enabled=!opening){opening=true}) {
+                    // Display the lid region of the user's original photograph. The JPEG stays
+                    // unmodified, retaining the real badge, lettering, patina and plastic texture.
+                    drawImage(casePhoto,
+                        srcOffset=IntOffset(0,(casePhoto.height*0.45f).toInt()),
+                        srcSize=IntSize(casePhoto.width,(casePhoto.height*0.53f).toInt()),
+                        dstSize=IntSize(size.width.toInt().coerceAtLeast(1),size.height.toInt().coerceAtLeast(1)))
                 }
             }
             Spacer(Modifier.height(30.dp))

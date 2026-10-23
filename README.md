@@ -1,11 +1,11 @@
-# PMI-80-EMI
+# PMI-80 EMU
 Emulator of PMI-80 for Android.
 
 Nativní Android aplikace v Kotlinu a Jetpack Compose. Panel verze 1.1 vychází z fotografií původního PMI-80: olivová deska v krémovém a žlutém krytu, červený průsvitný kryt s devíti čočkami a samostatný světlý štítek klávesnice. Modré funkční klávesy a tmavé hexadecimální klávesy mají stejné rozměry; popisky registrů jsou nad tlačítky. Rozložení odpovídá také [ASM80 PMI-80](https://www.asm80.com/pmi80.html). Emulace běží lokálně bez internetu a bez WebView.
 
 ## Instalace APK
 
-V [GitHub Actions](https://github.com/strihavkawidach-dot/PMI-80-EMI/actions/workflows/android.yml) otevři poslední úspěšný běh **Android debug APK**, stáhni artefakt **app-debug**, rozbal ZIP a nainstaluj `app-debug.apk`. Android může vyžadovat povolení instalace z daného zdroje. Jde o APK podepsané vývojovým klíčem, nikoliv release pro Google Play.
+V [GitHub Actions](https://github.com/strihavkawidach-dot/PMI-80-EMI/actions/workflows/android.yml) otevři poslední úspěšný běh **Android debug APK**, stáhni artefakt **PMI-80-EMU-debug**, rozbal ZIP a nainstaluj `app-debug.apk`. Android může vyžadovat povolení instalace z daného zdroje. Jde o APK podepsané vývojovým klíčem, nikoliv release pro Google Play.
 
 Workflow při každém push do `main`, pull requestu a ručním spuštění provede unit testy, Android lint a sestavení APK. Testy a lint reporty jsou v samostatném artefaktu.
 
@@ -49,3 +49,7 @@ Zapojení bylo porovnáno s [ovladačem MAME PMI-80](https://github.com/mamedev/
 Aplikace začíná zavřenou žlutou krabičkou. **Otevřít krabičku** animuje víko; pak přepínačem **SÍŤ** zapneš zdroj SN 080. Zelená kontrolka sítě a červené kontrolky +5 V, −5 V a +12 V vycházejí z dodaných videí. CPU se spustí až po dokončení vizuální sekvence napětí, od reset vektoru skutečného monitoru. Vypnutí okamžitě zastaví CPU a zhasne displej; kontrolky napětí postupně doběhnou. Jde o stylizované časování, nikoli simulaci napájecích obvodů. Sekvence se na pozadí pozastavuje. RAM zůstává zachována i při vypnutí. Při otočení telefonu se stav krabičky a zdroje uchová ve ViewModelu; nové spuštění procesu začíná zavřenou krabičkou.
 
 **Návod → Originální tabulka** a tlačítko nad deskou otevřou dodanou fotografii štítku z víka (instrukce 8080 a blokové schéma). Je přiložená přímo v aplikaci, funguje offline a pro čtení se otočí. Podporuje přiblížení až 6×, posouvání i tlačítka zvětšení. Původní JPEG je zachován bez úprav; čitelnost drobného tisku je omezená dodaným rozlišením. Textový návod k obsluze monitoru zůstává dostupný vedle fotografie. Podklady poskytl vlastník tohoto projektu.
+
+## Verze 1.2.1 – originální víko a název EMU
+
+Úvodní víko nyní používá dodanou fotografii skutečné krabičky: původní znak Tesla, text ŠKOLSKÝ MIKROPOČÍTAČ / PMI 80 a TESLA PIEŠŤANY. Aplikace zobrazuje výřez originálu a zachovává autentický povrch i patinu; původní JPEG není upravený. Otevírání víka funguje stejně jako dříve. Název aplikace v Androidu, úvodní obrazovka, název projektu Gradle i APK artefaktu nyní používají EMU. Adresa existujícího GitHub repozitáře zůstává stejná.

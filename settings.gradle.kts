@@ -12,5 +12,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "PMI-80-EMI"
+rootProject.name = "PMI-80-EMU"
 include(":app")
