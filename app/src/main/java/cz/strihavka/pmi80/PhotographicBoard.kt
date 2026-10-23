@@ -45,10 +45,10 @@ internal fun rememberBoardPhoto(): ImageBitmap {
 }
 
 private val BoardRegion=Rect(170f,220f,700f,1220f)
-private fun displayCrop(photo: ImageBitmap) = Rect(0f,photo.height*0.39f,photo.width.toFloat(),photo.height*0.78f)
+private fun displayCrop(photo: ImageBitmap) = Rect(photo.width*0.10f,photo.height*0.48f,photo.width*0.995f,photo.height*0.78f)
 private fun boardDisplayRegion(photo: ImageBitmap): Rect {
     val crop=displayCrop(photo)
-    return Rect(203f,442f,590f,442f+387f*crop.height/crop.width)
+    return Rect(203f,449f,590f,449f+387f*crop.height/crop.width)
 }
 
 @Composable
@@ -110,6 +110,13 @@ private fun DrawScope.drawBoard(photograph: ImageBitmap, displayPhoto: ImageBitm
     }) { drawPhotoDisplay(displayPhoto,digits,boardDisplayRegion(displayPhoto)) }
 }
 
+// Lens anchors measured on the unpowered retouch of the front-facing reference.
+// Individual positions retain the slight perspective rather than imposing an even grid.
+private val DisplayLensCenters=listOf(
+    Offset(0.2260f,0.6287f),Offset(0.3034f,0.6300f),Offset(0.3814f,0.6325f),
+    Offset(0.4593f,0.6355f),Offset(0.5356f,0.6410f),Offset(0.6132f,0.6392f),
+    Offset(0.6911f,0.6405f),Offset(0.7674f,0.6425f),Offset(0.8389f,0.6472f))
+
 /** The large photo and the display inset use the same source geometry and live masks. */
 private fun DrawScope.drawPhotoDisplay(photograph: ImageBitmap, digits: List<Int>, target: Rect) {
     val crop=displayCrop(photograph)
@@ -124,13 +131,13 @@ private fun DrawScope.drawPhotoDisplay(photograph: ImageBitmap, digits: List<Int
             val h=photograph.height.toFloat()
             digits.take(9).forEachIndexed { index,value ->
                 val mask=value and 0x7f
-                val cx=w*(0.089f+0.108f*index)
-                val cy=h*0.589f
-                val left=cx-w*0.0105f; val right=cx+w*0.0105f
+                val cx=w*DisplayLensCenters[index].x
+                val cy=h*DisplayLensCenters[index].y
+                val left=cx-w*0.012f; val right=cx+w*0.012f
                 val top=cy-h*0.028f; val bottom=cy+h*0.028f
                 if(mask!=0) {
                     val center=Offset(cx,cy)
-                    val radius=w*0.063f
+                    val radius=w*0.044f
                     drawCircle(Brush.radialGradient(listOf(Color(0xffff0950).copy(alpha=0.36f),Color(0xffff1459).copy(alpha=0.15f),Color.Transparent),center,radius),radius,center)
                 }
                 val segments=listOf(
@@ -143,7 +150,7 @@ private fun DrawScope.drawPhotoDisplay(photograph: ImageBitmap, digits: List<Int
                     if(mask and (1 shl bit)!=0) {
                         drawLine(Color(0xffff1250).copy(alpha=0.18f),slant(start),slant(end),w*0.012f,StrokeCap.Round)
                         drawLine(Color(0xffff2876).copy(alpha=0.7f),slant(start),slant(end),w*0.006f,StrokeCap.Round)
-                        drawLine(Color(0xffffe5ef),slant(start),slant(end),w*0.0025f,StrokeCap.Round)
+                        drawLine(Color(0xffffe5ef),slant(start),slant(end),w*0.003f,StrokeCap.Round)
                     }
                 }
             }
